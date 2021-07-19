@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/next_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +14,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.indigo,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // initialRoute: "/",
+      // routes: {
+      //   "/": (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+      //   "/next": (context) => NextPage(),
+      // },
     );
   }
 }
@@ -25,43 +31,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  void _incrementCounter() {
-    setState(() {      
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Flutter入校式"),
-        actions: <Widget>[
-          Icon(Icons.add),
-          Icon(Icons.share)
-        ],
+        actions: <Widget>[Icon(Icons.add), Icon(Icons.share)],
       ),
-      body: Container(
-        height:double.infinity,
-        color: Colors.black87,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: <Widget>[
-              Text('今日はね、', style: TextStyle(color: Colors.white),),
-              Text("いい天気だったよ、", style: TextStyle(color: Colors.white),),
-              Text("いや本当にもう", style: TextStyle(color: Colors.white),),
-            ],
-
-          ),
+      body: Center(
+        child: ElevatedButton(
+          child: Text("次へ"),
+          onPressed: () {
+            // Navigator.pushNamed(context, "/next");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NextPage(),
+              ),
+            );
+          },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), 
     );
   }
 }
