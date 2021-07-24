@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_design_copy/screens/home/components/header_with_searchbox.dart';
+import 'package:flutter_design_copy/constants.dart';
+import 'package:flutter_design_copy/screens/home/components/recomend_plants.dart';
+import 'package:flutter_design_copy/screens/home/components/featured_plants.dart';
 import 'package:flutter_design_copy/screens/home/components/title_with_more_btn.dart';
+import 'package:flutter_design_copy/screens/home/components/header_with_searchbox.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -16,6 +19,10 @@ class Body extends StatelessWidget {
             title: "Recomended",
             press: () {},
           ),
+          RecomendPlants(),
+          TitleWithMoreBtn(title: "Featured Plants", press: () {}),
+          FeaturedPlants(),
+          SizedBox(height: kDefaultPadding),
         ],
       ),
     );
