@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_design_copy_2/components/filled_outline_button.dart';
 import 'package:flutter_design_copy_2/constants.dart';
 import 'package:flutter_design_copy_2/models/Chat.dart';
+import 'package:flutter_design_copy_2/components/filled_outline_button.dart';
+import 'package:flutter_design_copy_2/screen/chats/components/chat_card.dart';
+import 'package:flutter_design_copy_2/screen/messages/message_screen.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -23,28 +25,16 @@ class Body extends StatelessWidget {
         Expanded(
           child: ListView.builder(
             itemCount: chatsData.length,
-            itemBuilder: (context, index) => ChatCard(chat: chatsData[index]),
+            itemBuilder: (context, index) => ChatCard(
+              chat: chatsData[index],
+              press: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MessagesScreen(),
+                ),
+              ),
+            ),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class ChatCard extends StatelessWidget {
-  const ChatCard({
-    Key? key,
-    required this.chat,
-  }) : super(key: key);
-
-  final Chat chat;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CircleAvatar(
-          backgroundImage: AssetImage(chat.image),
         ),
       ],
     );
