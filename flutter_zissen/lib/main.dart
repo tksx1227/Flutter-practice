@@ -12,99 +12,186 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: MyHomePage(),
+      home: MyWidget(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  bool flag = false;
-
-  _click() async {
-    setState(() {
-      flag = !flag;
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(Icons.create),
-            Text("初めてのタイトル"),
-          ],
-        ),
-      ),
-      drawer: Drawer(
-        child: Center(
-          child: Text("Drawer"),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            AnimatedContainer(
-              duration: Duration(seconds: 3),
-              width: flag ? 100 : 50,
-              height: flag ? 50 : 100,
-              padding: flag ? EdgeInsets.all(0) : EdgeInsets.all(30),
-              margin: flag ? EdgeInsets.all(0) : EdgeInsets.all(30),
-              transform: flag ? Matrix4.skewX(0.0) : Matrix4.skewX(0.3),
-              color: flag ? Colors.blue : Colors.grey,
-            ),
-            AnimatedSwitcher(
-              duration: Duration(seconds: 3),
-              child: flag
-                  ? Text("何もない")
-                  : Icon(Icons.favorite, color: Colors.pink),
-            ),
-            // AnimatedOpacity(
-            //   opacity: flag ? 0.1 : 1.0,
-            //   duration: Duration(seconds: 3),
-            //   child: Text(
-            //     "消える文字",
-            //     style: Theme.of(context).textTheme.headline4,
-            //   ),
-            // ),
-            // AnimatedSize(
-            //   vsync: this,
-            //   duration: Duration(seconds: 3),
-            //   child: SizedBox(
-            //     width: flag ? 50 : 200,
-            //     height: flag ? 50 : 200,
-            //     child: Container(color: Colors.purple),
-            //   ),
-            // ),
-            // AnimatedAlign(
-            //   alignment: flag ? Alignment.topLeft : Alignment.bottomRight,
-            //   duration: Duration(seconds: 3),
-            //   child: SizedBox(
-            //     width: 50,
-            //     height: 50,
-            //     child: Container(color: Colors.green),
-            //   ),
-            // ),
-          ],
-        ),
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: _click,
-            child: Icon(Icons.add),
+        leading: Icon(Icons.arrow_back),
+        title: Text("Practice!!!"),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.developer_board),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.more_vert),
           ),
         ],
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            Spacer(),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 300,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue, width: 5),
+              ),
+              child: ListView(
+                children: <Widget>[
+                  Card(
+                    child: ListTile(
+                      title: Text("Title"),
+                      trailing: Icon(Icons.favorite),
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      title: Text("Title"),
+                      trailing: Icon(Icons.thumb_up),
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      title: Text("Title"),
+                      trailing: Icon(Icons.thumb_down),
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      title: Text("Title"),
+                      trailing: Icon(Icons.favorite),
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      title: Text("Title"),
+                      trailing: Icon(Icons.thumb_up),
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      title: Text("Title"),
+                      trailing: Icon(Icons.thumb_down),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Spacer(),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue, width: 5),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text("First line"),
+                    Text("Second line"),
+                    Text("Third line"),
+                  ],
+                ),
+              ),
+            ),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.favorite),
+                  color: Colors.pink,
+                  iconSize: 46,
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.comment),
+                  color: Colors.black,
+                  iconSize: 46,
+                ),
+              ],
+            ),
+            Spacer(),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class MyWidget extends StatefulWidget {
+  @override
+  _MyWidgetState createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  int count = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: Icon(Icons.arrow_back),
+        title: Text("Practice!!!"),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.developer_board),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.more_vert),
+          ),
+        ],
+      ),
+      body: Container(
+        padding: EdgeInsets.all(10),
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              count.toString(),
+              style: TextStyle(
+                fontSize: 48,
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  count++;
+                });
+              },
+              child: Text("カウントアップ"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  count = 0;
+                });
+              },
+              child: Text("リセット"),
+            ),
+          ],
+        ),
       ),
     );
   }
