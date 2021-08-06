@@ -1,197 +1,59 @@
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      // home: MyHomePage(),
-      home: MyWidget(),
+      title: "Startup Name Generator",
+      home: RandomWords(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class RandomWords extends StatefulWidget {
+  const RandomWords({Key? key}) : super(key: key);
+
+  @override
+  _RandomWordsState createState() => _RandomWordsState();
+}
+
+class _RandomWordsState extends State<RandomWords> {
+  final _suggestions = <WordPair>[];
+  final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
-        title: Text("Practice!!!"),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.developer_board),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.more_vert),
-          ),
-        ],
+        title: const Text("Startup Name Generator"),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Spacer(),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 300,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 5),
-              ),
-              child: ListView(
-                children: <Widget>[
-                  Card(
-                    child: ListTile(
-                      title: Text("Title"),
-                      trailing: Icon(Icons.favorite),
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      title: Text("Title"),
-                      trailing: Icon(Icons.thumb_up),
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      title: Text("Title"),
-                      trailing: Icon(Icons.thumb_down),
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      title: Text("Title"),
-                      trailing: Icon(Icons.favorite),
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      title: Text("Title"),
-                      trailing: Icon(Icons.thumb_up),
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      title: Text("Title"),
-                      trailing: Icon(Icons.thumb_down),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Spacer(),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue, width: 5),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text("First line"),
-                    Text("Second line"),
-                    Text("Third line"),
-                  ],
-                ),
-              ),
-            ),
-            Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.favorite),
-                  color: Colors.pink,
-                  iconSize: 46,
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.comment),
-                  color: Colors.black,
-                  iconSize: 46,
-                ),
-              ],
-            ),
-            Spacer(),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
-        onPressed: () {},
-        child: Icon(Icons.add),
-      ),
+      body: _buildSuggestions(),
     );
   }
-}
 
-class MyWidget extends StatefulWidget {
-  @override
-  _MyWidgetState createState() => _MyWidgetState();
-}
+  Widget _buildSuggestions() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemBuilder: (context, i) {
+        if (i.isOdd) return const Divider();
 
-class _MyWidgetState extends State<MyWidget> {
-  int count = 0;
+        final index = i ~/ 2;
+        if (index >= _suggestions.length) {
+          _suggestions.addAll(generateWordPairs().take(10));
+        }
+        return _buildRow(_suggestions[index]);
+      },
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
-        title: Text("Practice!!!"),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.developer_board),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.more_vert),
-          ),
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              count.toString(),
-              style: TextStyle(
-                fontSize: 48,
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  count++;
-                });
-              },
-              child: Text("カウントアップ"),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  count = 0;
-                });
-              },
-              child: Text("リセット"),
-            ),
-          ],
-        ),
+  Widget _buildRow(WordPair pair) {
+    return ListTile(
+      title: Text(
+        pair.asPascalCase,
+        style: _biggerFont,
       ),
     );
   }
