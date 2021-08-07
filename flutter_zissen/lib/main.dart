@@ -8,7 +8,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Startup Name Generator",
+      theme: ThemeData(
+        primaryColor: Colors.pink[300],
+      ),
       home: RandomWords(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -22,13 +26,47 @@ class RandomWords extends StatefulWidget {
 
 class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
+  final _saved = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   Widget build(BuildContext context) {
+    void _pushSaved() {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (BuildContext context) {
+          final tiles = _saved.map((WordPair pair) {
+            return ListTile(
+              title: Text(
+                pair.asPascalCase,
+                style: _biggerFont,
+              ),
+            );
+          });
+          final divided = tiles.isNotEmpty
+              ? ListTile.divideTiles(
+                  context: context,
+                  tiles: tiles,
+                ).toList()
+              : <Widget>[];
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Saved Suggestions"),
+            ),
+            body: ListView(children: divided),
+          );
+        }),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Startup Name Generator"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.list),
+            onPressed: _pushSaved,
+          )
+        ],
       ),
       body: _buildSuggestions(),
     );
@@ -44,17 +82,33 @@ class _RandomWordsState extends State<RandomWords> {
         if (index >= _suggestions.length) {
           _suggestions.addAll(generateWordPairs().take(10));
         }
+
         return _buildRow(_suggestions[index]);
       },
     );
   }
 
   Widget _buildRow(WordPair pair) {
+    final alreadySaved = _saved.contains(pair);
+
     return ListTile(
       title: Text(
         pair.asPascalCase,
         style: _biggerFont,
       ),
+      trailing: Icon(
+        alreadySaved ? Icons.favorite : Icons.favorite_border,
+        color: alreadySaved ? Colors.red.withOpacity(0.7) : null,
+      ),
+      onTap: () {
+        setState(() {
+          if (alreadySaved) {
+            _saved.remove(pair);
+          } else {
+            _saved.add(pair);
+          }
+        });
+      },
     );
   }
 }
